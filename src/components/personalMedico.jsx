@@ -1,39 +1,45 @@
-"use client"
-import { useState } from 'react';
+"use client";
+import { useState } from "react";
 function PersonalMedico({ doctor }) {
   //console.log(doctor.horarios);
   const [formData, setFormData] = useState({
-    fecha: '',
-    nombre: '',
-    telefono: '',
-    hora: '',
+    fecha: "",
+    nombre: "",
+    telefono: "",
+    hora: "",
   });
   const handleChange = (event) => {
     setFormData({
       ...formData,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log();
-   
-  
+   // Combina la fecha y la hora en una sola cadena en formato ISO-8601
+  const fechaHora = `${formData.fecha}T${formData.hora}:00`;
+
+  // Agrega la información de zona horaria
+  const fechaHoraZona = `${fechaHora}Z`;
+
     const response = await fetch(`/api/citas`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         medicoId: doctor.id,
-        ...formData
-      })
+        fecha: fechaHoraZona, // Usa la nueva cadena de fecha y hora
+        nombre: formData.nombre,
+        telefono: formData.telefono,
+      }),
     });
 
     if (response.ok) {
-      alert('Cita reservada con éxito!');
+      alert("Cita reservada con éxito!");
     } else {
-      alert('Hubo un error al reservar la cita.');
+      alert("Hubo un error al reservar la cita.");
     }
   };
 
