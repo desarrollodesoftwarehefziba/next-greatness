@@ -23,18 +23,19 @@ function MedicoCarta({ medicos }) {
         value={busqueda}
         onChange={handleSearch}
         placeholder="Buscar por nombre o especialidad"
+        className="w-full border border-gray-300 rounded-md p-2 mb-4"
       />
       {medicosFiltrados.map((medico) => (
         <div
           key={medico.id}
-          className="bg-slate-900 p-3 hover:bg-slate-800 hover:cursor-pointer"
+          className="border border-gray-300 rounded-md p-3 hover:bg-gray-50 hover:cursor-pointer mb-4"
           onClick={() => {
             router.push("/doctors/" + medico.id);
           }}
         >
-          <h3 className="font-bold text-2xl mb-2">{medico.nombre}</h3>
-          <h3>{medico.especialidad}</h3>
-          <p>{medico.biografia}</p>
+          <h3 className="font-bold text-xl mb-2">{medico.nombre}</h3>
+          <h3 className="text-gray-600">{medico.especialidad}</h3>
+          <p className="text-gray-700">{medico.biografia}</p>
         </div>
       ))}
     </div>
