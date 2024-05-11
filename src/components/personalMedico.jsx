@@ -1,33 +1,25 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+
 function PersonalMedico({ doctor }) {
-  //console.log(doctor.horarios);
   const [formData, setFormData] = useState({
     fecha: "",
     nombre: "",
     telefono: "",
     hora: "",
   });
-  // const [horarios, setHorarios] = useState([]);
-  // useEffect(() => {
-  //   const load = async () => {
-  //     const horarios = await loadHorarios(doctor.id);
-  //     setHorarios(horarios);
-  //   };
-  //   load();
-  // }, [doctor.id]);
+
   const handleChange = (event) => {
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
     });
   };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log();
 
     const fechaHora = `${formData.fecha}T${formData.hora}:00`;
-
     const fechaHoraZona = `${fechaHora}Z`;
 
     const response = await fetch(`/api/citas`, {
@@ -51,41 +43,42 @@ function PersonalMedico({ doctor }) {
   };
 
   return (
-    <div>
-      {doctor.id}
-      <h3>{doctor.nombre}</h3>
-      <h3>{doctor.especialidad}</h3>
-      {doctor.horarios.map((horario, index) => (
-        <div key={index}>
-          <p>Día de la semana: {horario.diaSemana}</p>
-          <p>
-            Hora de inicio: {new Date(horario.horaInicio).toLocaleTimeString()}
-          </p>
-          <p>Hora de fin: {new Date(horario.horaFin).toLocaleTimeString()}</p>
-        </div>
-      ))}
-      <h2>Reservar una cita:</h2>
+    <div className="bg-white shadow-md rounded-md p-6">
+      <h2 className="text-xl font-semibold mb-4">{doctor.nombre}</h2>
+      <h3 className="text-lg font-medium mb-2">{doctor.especialidad}</h3>
+      <div className="mb-4">
+        {doctor.horarios.map((horario, index) => (
+          <div key={index} className="mb-2">
+            <p><span className="font-semibold">Día:</span> {horario.diaSemana}</p>
+            <p><span className="font-semibold">Inicio:</span> {new Date(horario.horaInicio).toLocaleTimeString()}</p>
+            <p><span className="font-semibold">Fin:</span> {new Date(horario.horaFin).toLocaleTimeString()}</p>
+          </div>
+        ))}
+      </div>
       <form onSubmit={handleSubmit}>
-        <label>
-          Fecha:
-          <input type="date" name="fecha" onChange={handleChange} required />
-        </label>
-        <label>
-          Hora:
-          <input type="time" name="hora" onChange={handleChange} required />
-        </label>
-        <label>
-          Nombre:
-          <input type="text" name="nombre" onChange={handleChange} required />
-        </label>
-        <label>
-          Teléfono:
-          <input type="tel" name="telefono" onChange={handleChange} required />
-        </label>
-        <button type="submit">Reservar</button>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div>
+            <label className="block mb-2">Fecha:</label>
+            <input type="date" name="fecha" onChange={handleChange} required className="p-2 border rounded-md w-full" />
+          </div>
+          <div>
+            <label className="block mb-2">Hora:</label>
+            <input type="time" name="hora" onChange={handleChange} required className="p-2 border rounded-md w-full" />
+          </div>
+          <div>
+            <label className="block mb-2">Nombre:</label>
+            <input type="text" name="nombre" onChange={handleChange} required className="p-2 border rounded-md w-full" />
+          </div>
+          <div>
+            <label className="block mb-2">Teléfono:</label>
+            <input type="tel" name="telefono" onChange={handleChange} required className="p-2 border rounded-md w-full" />
+          </div>
+        </div>
+        <button type="submit" className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 mt-4 transition duration-300">Reservar</button>
       </form>
     </div>
   );
 }
 
 export default PersonalMedico;
+
