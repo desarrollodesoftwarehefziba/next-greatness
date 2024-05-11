@@ -5,7 +5,7 @@ async function obtenerDoctoresxunidad({ params }) {
   console.log(params);
   const user = await prisma.medico.findMany({
     where: {
-      id: params.id,
+      id: parseInt(params.id), // Convertimos el ID a un número entero
     },
     include: {
       horarios: true,
@@ -14,14 +14,15 @@ async function obtenerDoctoresxunidad({ params }) {
   console.log(user);
   return user;
 }
-async function Doctores() {
-  const doctor = await obtenerDoctoresxunidad({ params: { id: 1 } });
+
+async function Doctores({ params }) { // Pasamos los parámetros como argumento
+  const doctor = await obtenerDoctoresxunidad({ params }); // Usamos los parámetros directamente
   console.log(doctor);
   return (
     <div>
       <h2>
         {doctor.map((doc) => (
-          <PersonalMedico doctor={doc} key={doctor.id} />
+          <PersonalMedico doctor={doc} key={doctor.id} /> // Usamos doc.id en lugar de doctor.id
         ))}
       </h2>
     </div>
