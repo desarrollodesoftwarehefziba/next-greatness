@@ -17,10 +17,10 @@ function PersonalMedico({ doctor }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log();
-   // Combina la fecha y la hora en una sola cadena en formato ISO-8601
+ 
   const fechaHora = `${formData.fecha}T${formData.hora}:00`;
 
-  // Agrega la información de zona horaria
+ 
   const fechaHoraZona = `${fechaHora}Z`;
 
     const response = await fetch(`/api/citas`, {
@@ -30,7 +30,7 @@ function PersonalMedico({ doctor }) {
       },
       body: JSON.stringify({
         medicoId: doctor.id,
-        fecha: fechaHoraZona, // Usa la nueva cadena de fecha y hora
+        fecha: fechaHoraZona, 
         nombre: formData.nombre,
         telefono: formData.telefono,
       }),
