@@ -12,7 +12,7 @@ async function ConsultaMedicos() {
   return (
     <section className="container mx-auto">
       <div className="grid grid-cols-3 gap-3 mt-10">
-        <MedicoCarta medicos={medicos} /> 
+        <MedicoCarta medicos={medicos} />
       </div>
     </section>
   );

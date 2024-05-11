@@ -9,9 +9,7 @@ export async function GET() {
 
 export async function POST(request) {
   const { fecha, nombre, telefono, medicoId } = await request.json();
- 
-  
- 
+
   const nuevaCita = await prisma.citaMedica.create({
     data: {
       fecha,
