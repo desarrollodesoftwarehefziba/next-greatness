@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 function PersonalMedico({ doctor }) {
   //console.log(doctor.horarios);
   const [formData, setFormData] = useState({
@@ -8,6 +8,14 @@ function PersonalMedico({ doctor }) {
     telefono: "",
     hora: "",
   });
+  // const [horarios, setHorarios] = useState([]);
+  // useEffect(() => {
+  //   const load = async () => {
+  //     const horarios = await loadHorarios(doctor.id);
+  //     setHorarios(horarios);
+  //   };
+  //   load();
+  // }, [doctor.id]);
   const handleChange = (event) => {
     setFormData({
       ...formData,
@@ -17,11 +25,10 @@ function PersonalMedico({ doctor }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log();
- 
-  const fechaHora = `${formData.fecha}T${formData.hora}:00`;
 
- 
-  const fechaHoraZona = `${fechaHora}Z`;
+    const fechaHora = `${formData.fecha}T${formData.hora}:00`;
+
+    const fechaHoraZona = `${fechaHora}Z`;
 
     const response = await fetch(`/api/citas`, {
       method: "POST",
@@ -30,7 +37,7 @@ function PersonalMedico({ doctor }) {
       },
       body: JSON.stringify({
         medicoId: doctor.id,
-        fecha: fechaHoraZona, 
+        fecha: fechaHoraZona,
         nombre: formData.nombre,
         telefono: formData.telefono,
       }),
@@ -48,12 +55,15 @@ function PersonalMedico({ doctor }) {
       {doctor.id}
       <h3>{doctor.nombre}</h3>
       <h3>{doctor.especialidad}</h3>
-      {/* {doctor.horarios.map((horario, index) => (
+      {doctor.horarios.map((horario, index) => (
         <div key={index}>
-          <p>Día de la semana: {horario.horario}</p>
-         
+          <p>Día de la semana: {horario.diaSemana}</p>
+          <p>
+            Hora de inicio: {new Date(horario.horaInicio).toLocaleTimeString()}
+          </p>
+          <p>Hora de fin: {new Date(horario.horaFin).toLocaleTimeString()}</p>
         </div>
-      ))} */}
+      ))}
       <h2>Reservar una cita:</h2>
       <form onSubmit={handleSubmit}>
         <label>
