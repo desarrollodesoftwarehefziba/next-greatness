@@ -10,9 +10,7 @@ export async function GET() {
 export async function POST(request) {
   const { fecha, nombre, telefono, medicoId } = await request.json();
  
-  // Formatear la fecha en formato ISO-8601
-  //const fechaISO8601 = fecha.toISOString();
- // console.log("----->", fechaISO8601);
+  
  
   const nuevaCita = await prisma.citaMedica.create({
     data: {
